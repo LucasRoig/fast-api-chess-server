@@ -1,0 +1,26 @@
+from typing import Any, List, Tuple
+
+from asyncpg.connection import Connection
+from asyncpg import Record
+from loguru import logger
+
+
+def _log_query(query: str, query_params: Tuple[Any, ...]):
+    logger.debug("query: {0}, values: {1}", query, query_params)
+
+
+class BaseRepository:
+    def __init__(self, conn: Connection) -> None:
+        self._conn = conn
+
+    @property
+    def connection(self) -> Connection:
+        return self._conn
+
+    async def _log_and_fetch(self, query: str, *query_params: Any) -> List[Record]:
+        _log_query(query, query_params)
+        return await self._conn.fetch(query, *query_params)
+
+    async def _log_and_fetch_row(self, query: str, *query_params: Any) -> Record:
+        _log_query(query, query_params)
+        return await self._conn.fetchrow(query, *query_params)
