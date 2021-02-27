@@ -1,4 +1,4 @@
-from typing import AsyncGenerator, Callable, Type
+from typing import AsyncGenerator, Callable, Type, cast
 
 from asyncpg.connection import Connection
 from asyncpg.pool import Pool
@@ -9,7 +9,7 @@ from app.db.repositories.base import BaseRepository
 
 
 def _get_db_pool(request: Request) -> Pool:
-    return request.app.state.pool
+    return cast(Pool, request.app.state.pool)
 
 
 async def _get_connection_from_pool(pool: Pool = Depends(_get_db_pool)) -> AsyncGenerator[Connection, None]:

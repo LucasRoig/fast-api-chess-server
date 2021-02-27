@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="chess-fast-db" uuid="7d4b024f-a5a4-4b87-bb99-03565225e14a">
+    <data-source source="LOCAL" name="chess-db" uuid="d07cb379-03a8-42f8-be03-960fc470ca3a">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

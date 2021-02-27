@@ -1,0 +1,3 @@
+from .connection import Connection
+class Pool:
+    def acquire(self) -> Connection: ...

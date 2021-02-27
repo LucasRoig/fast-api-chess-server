@@ -2,14 +2,22 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Python" name="Python">
-      <configuration sdkName="Python 3.9 (fast-api-chess-server-_fAaPf-f-py3.9)" />
+      <configuration sdkName="Remote Python 3.9.2 Docker Compose (app at [C:\Users\lucas\Documents\dev\fast-api-chess-server\docker-compose.yml]) (2)" />
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.9 (fast-api-chess-server-_fAaPf-f-py3.9)" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.mypy_cache" />
+    </content>
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Python 3.9 (fast-api-chess-server-_fAaPf-f-py3.9) interpreter library" level="application" />
+    <orderEntry type="library" name="Remote Python 3.9.2 Docker Compose (app at [C:\Users\lucas\Documents\dev\fast-api-chess-server\docker-compose.yml]) (2) interpreter library" level="application" />
+  </component>
+  <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="pytest" />
   </component>
 </module>

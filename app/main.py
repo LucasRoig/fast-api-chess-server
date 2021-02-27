@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import List
 
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
@@ -13,13 +13,13 @@ from app.api.routes.api import router as api_router
 
 def get_application() -> FastAPI:
     application = FastAPI()
-
+    allowed: List[str] = ["*"]
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=ALLOWED_HOSTS or ["*"],
+        allow_origins=ALLOWED_HOSTS or allowed,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"])
+        allow_methods=allowed,
+        allow_headers=allowed)
 
     application.add_event_handler("startup", create_start_app_handler(application))
     application.add_event_handler("shutdown", create_stop_app_handler(application))
