@@ -1,12 +1,13 @@
-from typing import cast, List, Dict
+from typing import cast, List, Dict, Union
 
 from chess import pgn, square_name
 
 from app.models.domain.serializable_game import SerializableGame, SerializablePosition, Move
 from io import StringIO, BytesIO, TextIOWrapper
 
-def parse_pgn(pgn_content: bytes) -> SerializableGame:
-    game: pgn.Game = cast(pgn.Game, pgn.read_game(TextIOWrapper(BytesIO(pgn_content))))
+def parse_pgn(pgn_content: Union[bytes, str]) -> SerializableGame:
+    content = TextIOWrapper(BytesIO(pgn_content)) if isinstance(pgn_content, bytes) else StringIO(pgn_content)
+    game: pgn.Game = cast(pgn.Game, pgn.read_game(content))
     return pgn_game_to_serializable_game(game)
 
 
