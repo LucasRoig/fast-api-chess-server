@@ -14,14 +14,14 @@ jobs:
     steps:
       - checkout
 #      - restore_cache:
-#          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
+#          key: v1-deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
       - run:
           command: |
             sudo pip install poetry
             poetry config virtualenvs.path venv
             poetry install
       - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
+          key: v1-deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
           paths:
             - "venv"
       - run: poetry run pytest
