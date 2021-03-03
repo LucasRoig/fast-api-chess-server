@@ -6,6 +6,7 @@ jobs:
       - image: circleci/python:3.9.2
         environment:
           TEST_DB_CONNECTION: postgresql://postgres:postgres@db:5432/chess-fast-test
+          SECRET_KEY: test
     steps:
       - checkout
       - run:
