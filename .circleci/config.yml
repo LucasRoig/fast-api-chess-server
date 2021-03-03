@@ -59,4 +59,4 @@ workflows:
           requires: [build-and-test]
           filters:
             branches:
-              only: master
+              only: circleci-project-setup
