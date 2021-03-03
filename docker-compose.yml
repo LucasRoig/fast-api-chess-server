@@ -2,6 +2,7 @@ version: '3'
 
 services:
   app:
+    container_name: fast-api-chess-server-app
     build:
       context: .
       dockerfile: docker/dev.Dockerfile

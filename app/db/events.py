@@ -19,6 +19,6 @@ async def connect_to_db(app: FastAPI) -> None:
 async def close_db_connection(app: FastAPI) -> None:
     logger.info("Closing connection to database" )
 
-    await app.state.pool.close()
+    await app.state.pool.close() # type:ignore
 
     logger.info("Connection closed")
