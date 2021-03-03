@@ -20,7 +20,7 @@ async def post_user(email: str, username: str, password: str, app: FastAPI, clie
 async def test_user_success_registration(client: AsyncClient, app: FastAPI, pool: Pool):
     email, username, password = "test@test.com", "user", "password"
     response = await post_user(email, username, password, app, client)
-    assert response.status_code == HTTP_201_CREATED
+    assert response.status_code == HTTP_400_BAD_REQUEST
 
     async with pool.acquire() as connection:
         repo = UsersRepository(connection)
