@@ -27,3 +27,6 @@ jobs:
       - run: poetry run pytest --junitxml=test-results/pytest/test-result.xml
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
