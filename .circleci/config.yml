@@ -13,15 +13,14 @@ jobs:
           POSTGRES_PASSWORD: postgres
     steps:
       - checkout
-      - restore_cache:
-          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
+#      - restore_cache:
+#          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
       - run:
           command: |
             sudo pip install poetry
-            poetry config virtualenvs.create false --local
             poetry install
-      - save_cache:
-          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
-          paths:
-            - "/usr/local/lib/python3.9/site-packages/"
-      - run: pytest
+#      - save_cache:
+#          key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
+#          paths:
+#            - "/usr/local/lib/python3.9/site-packages/"
+      - run: poetry run pytest
