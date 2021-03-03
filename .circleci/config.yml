@@ -24,4 +24,6 @@ jobs:
           key: v1-deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
           paths:
             - "venv"
-      - run: poetry run pytest
+      - run: poetry run pytest --junitxml=test-result.xml
+      - store_test_results:
+          path: test-result.xml
