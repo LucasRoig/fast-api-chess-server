@@ -2,12 +2,23 @@ version: 2.1
 
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:202101-01
+    docker:
+      - image: circleci/python:3.9.2
     steps:
       - checkout
       - run:
           command: |
-            cp .env.sample .env
-            echo POSTGRES_PASSWORD=postgres >> .env
-            docker-compose -f "docker-compose-test.yml" up --build
+            sudo pip install poetry
+            poetry config virtualenvs.create false --local
+            poetry install
+            pytest
+
+        #    machine:
+#      image: ubuntu-2004:202101-01
+#    steps:
+#      - checkout
+#      - run:
+#          command: |
+#            cp .env.sample .env
+#            echo POSTGRES_PASSWORD=postgres >> .env
+#            docker-compose -f "docker-compose-test.yml" up --build
