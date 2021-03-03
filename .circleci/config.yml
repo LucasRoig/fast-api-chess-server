@@ -7,7 +7,7 @@ jobs:
         environment:
           TEST_DB_CONNECTION: postgresql://postgres:postgres@localhost:5432/chess-fast-test
           SECRET_KEY: test
-      - image: circleci/postgres:13.2-alpine
+      - image: circleci/postgres:13.2
         environment:
           POSTGRES_DB: chess-fast-test
           POSTGRES_PASSWORD: postgres
