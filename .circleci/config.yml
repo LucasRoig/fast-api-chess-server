@@ -20,7 +20,6 @@ jobs:
             sudo pip install poetry
             poetry config virtualenvs.create false --local
             poetry install
-            ls /usr/local/lib/python3.9/site-packages/
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
           paths:
