@@ -13,8 +13,8 @@ jobs:
           POSTGRES_PASSWORD: postgres
     steps:
       - checkout
-#      - restore_cache:
-#          key: v1-deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
+      - restore_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "poetry.lock"}}
       - run:
           command: |
             sudo pip install poetry
