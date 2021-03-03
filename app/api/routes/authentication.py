@@ -13,7 +13,7 @@ from app.services.authentication import check_username_is_taken, check_email_is_
 router = APIRouter()
 
 
-@router.post("/register", response_model=UserInResponse, name="auth:register")
+@router.post("/register", status_code=HTTP_201_CREATED, response_model=UserInResponse, name="auth:register")
 async def register(
         user_create: UserInCreate = Body(..., embed=True, alias="user"),
         users_repo: UsersRepository = Depends(get_repository(UsersRepository))

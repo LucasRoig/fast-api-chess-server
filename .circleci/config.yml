@@ -11,6 +11,7 @@ jobs:
         environment:
           POSTGRES_DB: chess-fast-test
           POSTGRES_PASSWORD: postgres
+    resource_class: small
     steps:
       - checkout
       - restore_cache:
