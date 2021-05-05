@@ -1,0 +1,14 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[PlyCount "6"]
+
+{Avant ligne principale} 1. e4 {Apres premier coup} (1. d4 d5
+2. c4 c6 (2... e6 3. Nf3) (2... Nf6 3. cxd5 Qxd5 4. Nc3)) (1. c4 c5 2. Nc3 Nc6)
+{Avant second coup} 1... e5 {Dans ligne pricipale, avant variation} ({Avant varition} 1... c5) 2.
+Nf3 Nc6 3. Bc4 Nf6 *
+

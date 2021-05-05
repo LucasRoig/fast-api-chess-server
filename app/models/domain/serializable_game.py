@@ -4,10 +4,12 @@ from pydantic import Field
 
 from app.models.domain.rwmodel import RWModel
 
-class Move (RWModel):
+
+class Move(RWModel):
     from_square: str = Field(alias="from")
     to: str
     promotion: Optional[str]
+
 
 class SerializablePosition(RWModel):
     index: int
@@ -17,9 +19,10 @@ class SerializablePosition(RWModel):
     fen: str
     comment: Optional[str]
     commentBefore: Optional[str]
-    move: Move
+    move: Optional[Move]
     san: str
     is_mainline: bool
+
 
 class SerializableGame(RWModel):
     headers: Dict[str, str]

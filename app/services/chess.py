@@ -5,14 +5,16 @@ from chess import pgn, square_name
 from app.models.domain.serializable_game import SerializableGame, SerializablePosition, Move
 from io import StringIO, BytesIO, TextIOWrapper
 
+
 def parse_pgn(pgn_content: bytes) -> SerializableGame:
     game: pgn.Game = cast(pgn.Game, pgn.read_game(TextIOWrapper(BytesIO(pgn_content))))
     return pgn_game_to_serializable_game(game)
 
 
 def pgn_game_to_serializable_game(pgn_game: pgn.Game) -> SerializableGame:
-    current_index = 0
+    current_index = 1
     all_positions: List[SerializablePosition] = []
+
     def parse_position(pgn_position: pgn.ChildNode, is_mainline: bool) -> SerializablePosition:
         nonlocal current_index
         nonlocal all_positions
@@ -46,7 +48,19 @@ def pgn_game_to_serializable_game(pgn_game: pgn.Game) -> SerializableGame:
         )
         all_positions.insert(0, position)
         return position
-    for i,position in enumerate(pgn_game.variations):
+    first_pos = SerializablePosition(
+        index=0,
+        fen=pgn_game.board().fen(),
+        is_mainline=True,
+        nags=[],
+        san="",
+        variations_indexes=[],
+        next_position_index=1
+    )
+    all_positions.append(first_pos)
+    for i, position in enumerate(pgn_game.variations):
+        if i != 0:
+            first_pos.variations_indexes.append(current_index)
         parse_position(position, i == 0)
     headers: Dict[str, str] = {}
     for key in pgn_game.headers.keys():
@@ -57,5 +71,3 @@ def pgn_game_to_serializable_game(pgn_game: pgn.Game) -> SerializableGame:
         positions=all_positions,
     )
     return game
-
-
