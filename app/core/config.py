@@ -22,6 +22,11 @@ DATABASE_URL: DatabaseURL = config("DB_CONNECTION", cast=DatabaseURL)
 MAX_CONNECTIONS_COUNT: int = config("MAX_CONNECTIONS_COUNT", cast=int, default=10)
 MIN_CONNECTIONS_COUNT: int = config("MIN_CONNECTIONS_COUNT", cast=int, default=10)
 
+#Auth0
+AUTH0_DOMAIN: str = config("AUTH0_DOMAIN")
+API_AUDIENCE: str = config("API_AUDIENCE")
+AUTH0_ALGORITHMS: List[str] = config("AUTH0_ALGORITHMS", cast=CommaSeparatedStrings)
+
 ALLOWED_HOSTS: List[str] = config(
     "ALLOWED_HOSTS",
     cast=CommaSeparatedStrings,

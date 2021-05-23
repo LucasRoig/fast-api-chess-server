@@ -5,6 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
+from app.api.errors.auth_error import AuthError, auth_error_handler
 from app.api.errors.http_error import http_error_handler
 from app.api.errors.validation_error import http422_error_handler
 from app.core.config import ALLOWED_HOSTS, API_PREFIX
@@ -26,6 +27,7 @@ def get_application() -> FastAPI:
 
     application.add_exception_handler(HTTPException, http_error_handler)
     application.add_exception_handler(RequestValidationError, http422_error_handler)
+    application.add_exception_handler(AuthError, auth_error_handler)
 
     application.include_router(api_router, prefix=API_PREFIX)
 
