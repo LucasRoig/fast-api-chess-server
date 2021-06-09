@@ -1,5 +1,6 @@
 import pytest
 import alembic.config
+import app.api.dependencies.auth as auth
 from os import environ
 
 from asyncpg.pool import Pool
@@ -8,8 +9,9 @@ from starlette.config import Config
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 
+from app.db.repositories.auth0_users import Auth0UsersRepository
 from app.db.repositories.users import UsersRepository
-from app.models.domain.users import UserInDB
+from app.models.domain.users import UserInDB, Auth0User
 from app.services import jwt
 
 config = Config(".env")
@@ -70,6 +72,13 @@ async def test_user(pool: Pool) -> UserInDB:
             email="test@test.com", password="password", username="username"
         )
 
+test_user_sub = "default_test_user_sub"
+
+@pytest.fixture
+async def test_auth0_user(pool: Pool) -> Auth0User:
+    sub = test_user_sub
+    async with pool.acquire() as conn:
+        return await Auth0UsersRepository(conn).get_or_create_by_sub(sub=sub)
 
 @pytest.fixture
 def token(test_user: UserInDB) -> str:
@@ -77,12 +86,16 @@ def token(test_user: UserInDB) -> str:
     return jwt.create_access_token_for_user(test_user, SECRET_KEY)
 
 
+
 @pytest.fixture
 def authorized_client(
-        client: AsyncClient, token: str, authorization_prefix: str
+        client: AsyncClient, token: str, authorization_prefix: str, monkeypatch
 ) -> AsyncClient:
+    async def return_test_user_sub(authorization: str) -> str:
+        return authorization
+    monkeypatch.setattr(auth, "get_sub", return_test_user_sub)
     client.headers = {
-        "Authorization": f"{authorization_prefix} {token}",
+        "Authorization": f"{test_user_sub}",
         **client.headers,
     }
     return client
