@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Depends, Body
-from starlette.status import HTTP_201_CREATED
+from typing import List
+
+from fastapi import APIRouter, Depends, Body, HTTPException
+from starlette.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED
 
 from app.api.dependencies.auth import requires_auth
 from app.api.dependencies.database import get_repository
@@ -17,3 +19,23 @@ async def createDb(
     user: Auth0User = Depends(requires_auth)
 ) -> ChessDb:
     return await db_repo.create_db(name=db.name, user=user)
+
+@router.get("/", status_code=HTTP_200_OK, response_model=List[ChessDb], name="db:get_all")
+async def get_all_db(
+    db_repo: ChessDbRepository = Depends(get_repository(ChessDbRepository)),
+    user: Auth0User = Depends(requires_auth)
+) -> List[ChessDb]:
+    return await db_repo.get_db_for_user(user_id=user.id)
+
+@router.delete("/{db_id}", status_code=HTTP_200_OK, response_model=None, name="db:delete_one")
+async def delete_one(
+    db_id: int,
+    db_repo: ChessDbRepository = Depends(get_repository(ChessDbRepository)),
+    user: Auth0User = Depends(requires_auth),
+) -> None:
+    db = await db_repo.find_by_id(db_id=db_id)
+    if not db :
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="this database doesn't exists")
+    if db.user_id != user.id:
+        raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
+    await db_repo.delete_db(db_id=db_id)

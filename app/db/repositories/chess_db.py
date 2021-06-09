@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from asyncpg import Record
 
@@ -33,6 +33,16 @@ class ChessDbRepository(BaseRepository):
             parse_record(record=record)
             for record in rows
         ]
+
+    async def find_by_id(self, *, db_id: int) -> Optional[ChessDb]:
+        find_by_id = """
+        SELECT * FROM chess_db where id = $1
+        """
+        row = await self._log_and_fetch_row(find_by_id, db_id)
+        if row :
+            return parse_record(record=row)
+        else:
+            return None
 
 def parse_record(*, record: Record) -> ChessDb:
     return ChessDb(
