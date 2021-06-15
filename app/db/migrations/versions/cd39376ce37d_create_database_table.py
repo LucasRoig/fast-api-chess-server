@@ -20,7 +20,7 @@ def upgrade() -> None:
         "chess_db",
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("name", sa.String, nullable=False),
-        sa.Column("user_id", sa.Integer, sa.ForeignKey("auth0_users.id"), nullable=False)
+        sa.Column("user_id", sa.Integer, sa.ForeignKey("auth0_users.id", ondelete="CASCADE"), nullable=False)
     )
 
 

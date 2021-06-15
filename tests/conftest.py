@@ -1,6 +1,6 @@
 import pytest
 import alembic.config
-import app.api.dependencies.auth as auth
+
 from os import environ
 
 from asyncpg.pool import Pool
@@ -72,7 +72,9 @@ async def test_user(pool: Pool) -> UserInDB:
             email="test@test.com", password="password", username="username"
         )
 
+
 test_user_sub = "default_test_user_sub"
+
 
 @pytest.fixture
 async def test_auth0_user(pool: Pool) -> Auth0User:
@@ -80,11 +82,11 @@ async def test_auth0_user(pool: Pool) -> Auth0User:
     async with pool.acquire() as conn:
         return await Auth0UsersRepository(conn).get_or_create_by_sub(sub=sub)
 
+
 @pytest.fixture
 def token(test_user: UserInDB) -> str:
     from app.core.config import SECRET_KEY
     return jwt.create_access_token_for_user(test_user, SECRET_KEY)
-
 
 
 @pytest.fixture
@@ -93,6 +95,7 @@ def authorized_client(
 ) -> AsyncClient:
     async def return_test_user_sub(authorization: str) -> str:
         return authorization
+    import app.api.dependencies.auth as auth
     monkeypatch.setattr(auth, "get_sub", return_test_user_sub)
     client.headers = {
         "Authorization": f"{test_user_sub}",

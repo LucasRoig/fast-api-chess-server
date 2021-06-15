@@ -6,6 +6,7 @@ from app.models.domain.users import Auth0User
 
 pytestmark = pytest.mark.asyncio
 
+
 async def test_create_db(pool: Pool, test_auth0_user: Auth0User):
     db_name = "testDb"
     async with pool.acquire() as connection:
@@ -14,6 +15,7 @@ async def test_create_db(pool: Pool, test_auth0_user: Auth0User):
         assert db.name == db_name
         assert db.user_id == test_auth0_user.id
         assert db.id >= 0
+
 
 async def test_get_db(pool: Pool, test_auth0_user: Auth0User):
     db1 = "db1"
@@ -30,6 +32,7 @@ async def test_get_db(pool: Pool, test_auth0_user: Auth0User):
         assert res[1].name == db2
         assert res[1].id > 0 and res[1].id != res[0].id
         assert res[1].user_id == test_auth0_user.id
+
 
 async def test_delete_db(pool: Pool, test_auth0_user: Auth0User):
     async with pool.acquire() as connection:

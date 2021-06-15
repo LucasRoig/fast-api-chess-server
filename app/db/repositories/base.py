@@ -1,11 +1,11 @@
 from typing import Any, List, Tuple, Union
-
+import datetime
 from asyncpg.connection import Connection
 from asyncpg import Record
 from loguru import logger
 
 
-def _log_query(query: str, query_params: Tuple[Union[str, int], ...]) -> None:
+def _log_query(query: str, query_params: Tuple[Union[str, int, datetime.date], ...]) -> None:
     logger.debug("query: {0}, values: {1}", query, query_params)
 
 
@@ -17,10 +17,10 @@ class BaseRepository:
     def connection(self) -> Connection:
         return self._conn
 
-    async def _log_and_fetch(self, query: str, *query_params: Union[str, int]) -> List[Record]:
+    async def _log_and_fetch(self, query: str, *query_params: Union[str, int, datetime.date]) -> List[Record]:
         _log_query(query, query_params)
         return await self._conn.fetch(query, *query_params)
 
-    async def _log_and_fetch_row(self, query: str, *query_params: Union[str, int]) -> Record:
+    async def _log_and_fetch_row(self, query: str, *query_params: Union[str, int, datetime.date]) -> Record:
         _log_query(query, query_params)
         return await self._conn.fetchrow(query, *query_params)
